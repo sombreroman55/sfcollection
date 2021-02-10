@@ -15,5 +15,5 @@ void print_file_not_found(char* filename)
 
 void print_token_info(token_t token)
 {
-    printf("<\"%s\", \"%s\">\n", token.source_element, get_token_class_string(token.t_class));
+    printf("<\"%s\", \"%s\">\n", token.lexeme, get_token_class_string(token.t_class));
 }

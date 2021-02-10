@@ -35,14 +35,17 @@ int main(int argc, char** argv)
     {
         // Run lexer on each file
         token_list_t* tokens = lex(argv[argi]);
+        printf("List size: %d\n", tokens->size);
 
         token_list_node_t* curr = tokens->begin;
         int i;
         for (i = 0; i < tokens->size; i++)
         {
-            print_token_info(*(curr->token));
             curr = curr->next;
+            print_token_info(*(curr->token));
         }
+        destroy_list(&tokens);
+        free(tokens);
 
         // Run parser on each file
         // Run semantic analysis on each file
@@ -51,5 +54,5 @@ int main(int argc, char** argv)
     // Optimize
     // Run backend
 
-    exit( EXIT_SUCCESS);
+    exit(EXIT_SUCCESS);
 }

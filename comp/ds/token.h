@@ -13,7 +13,7 @@ typedef enum
 typedef struct
 {
   token_class_t t_class;
-  char* source_element;
+  char* lexeme;
 } token_t;
 
 typedef struct token_list_node_t
@@ -29,5 +29,6 @@ typedef struct
 } token_list_t;
 
 char* get_token_class_string(token_class_t tc);
+void destroy_list(token_list_t** list);
 
 #endif /* TOKEN_H */
