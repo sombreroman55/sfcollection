@@ -1,3 +1,9 @@
+/* lexer.c
+ *
+ * Tediously hand-written lexer for exercise purposes
+ * using a labeled state-machine approach inspired by
+ * re2c
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -5,95 +11,7 @@
 #include "lexer.h"
 #include "../helpers.h"
 
-int is_allowed_char (char c)
-{
-    return (isalpha(c) || c == '_');
-}
-
-int is_keyword(char* word)
-{
-    return ((!strcmp(word, "auto"      )) ||
-            (!strcmp(word, "break"     )) ||
-            (!strcmp(word, "case"      )) ||
-            (!strcmp(word, "char"      )) ||
-            (!strcmp(word, "const"     )) ||
-            (!strcmp(word, "continue"  )) ||
-            (!strcmp(word, "default"   )) ||
-            (!strcmp(word, "do"        )) ||
-            (!strcmp(word, "double"    )) ||
-            (!strcmp(word, "else"      )) ||
-            (!strcmp(word, "enum"      )) ||
-            (!strcmp(word, "extern"    )) ||
-            (!strcmp(word, "float"     )) ||
-            (!strcmp(word, "for"       )) ||
-            (!strcmp(word, "goto"      )) ||
-            (!strcmp(word, "if"        )) ||
-            (!strcmp(word, "inline"    )) ||
-            (!strcmp(word, "int"       )) ||
-            (!strcmp(word, "long"      )) ||
-            (!strcmp(word, "register"  )) ||
-            (!strcmp(word, "restrict"  )) ||
-            (!strcmp(word, "return"    )) ||
-            (!strcmp(word, "short"     )) ||
-            (!strcmp(word, "signed"    )) ||
-            (!strcmp(word, "sizeof"    )) ||
-            (!strcmp(word, "static"    )) ||
-            (!strcmp(word, "struct"    )) ||
-            (!strcmp(word, "switch"    )) ||
-            (!strcmp(word, "typedef"   )) ||
-            (!strcmp(word, "union"     )) ||
-            (!strcmp(word, "unsigned"  )) ||
-            (!strcmp(word, "void"      )) ||
-            (!strcmp(word, "volatile"  )) ||
-            (!strcmp(word, "while"     )) ||
-            (!strcmp(word, "_Bool"     )) ||
-            (!strcmp(word, "_Complex"  )) ||
-            (!strcmp(word, "_Imaginary")));
-}
-
-token_list_node_t* scan(FILE* fp)
-{
-    token_list_node_t* node = malloc(sizeof(token_list_node_t));
-    node->token = NULL;
-    node->next  = NULL;
-
-    char c;
-
-    while ((c = fgetc(fp)) && c != EOF)
-    {
-        if (is_allowed_char(c))
-        {
-            int size = 0;
-            char* buffer = malloc(size * sizeof(char));
-            do
-            {
-                size++;
-                buffer = realloc(buffer, size * sizeof(char));
-                buffer[size-1] = c;
-                c = fgetc(fp);
-            } while (c != EOF && is_allowed_char(c));
-
-            size++;
-            buffer = realloc(buffer, size * sizeof(char));
-            buffer[size-1] = '\0';
-
-            if (is_keyword(buffer))
-            {
-                token_t* token = malloc(sizeof(token_t));
-                token->lexeme = buffer;
-                token->t_class = KEYWORD;
-                node->token = token;
-                return node;
-            }
-            else
-            {
-                free(buffer);
-            }
-        }
-    }
-
-    return NULL;
-}
+token_list_node_t* scan(lex_context& ctx);
 
 token_list_t* lex(char* filename)
 {
@@ -112,11 +30,159 @@ token_list_t* lex(char* filename)
     while (1)
     {
         token_list_node_t* next_node = scan(fp);
-        if (!next_node) break;
+        if (next_node->token->t_class == TOKEN_END) break;
         pointer->next = next_node;
         pointer = next_node;
         (token_list->size)++;
     }
 
     return token_list;
+}
+
+token_list_node_t* scan(lex_context& ctx)
+{
+    const char* anchor = ctx.cursor++;
+    char* cc;
+    switch (cc = *ctx.cursor)
+    {
+        // EOF
+        case 0x00: goto lexend;
+
+        // non-linebreak whitespace
+        case 0x08:
+        case '\t':
+        case '\v':
+        case '\f':
+        case ' ':
+
+        // linebreak whitespace
+        case '\n':
+        case '\r':
+
+        // punctuators
+
+        // numeric characters
+
+        // alphabetic characters
+        case 'A':
+        case 'B':
+        case 'C':
+        case 'D':
+        case 'E':
+        case 'F':
+        case 'G':
+        case 'H':
+        case 'I':
+        case 'J':
+        case 'K':
+        case 'L':
+        case 'M':
+        case 'N':
+        case 'O':
+        case 'P':
+        case 'Q':
+        case 'R':
+        case 'S':
+        case 'T':
+        case 'U':
+        case 'V':
+        case 'W':
+        case 'X':
+        case 'Y':
+        case 'Z':
+
+        // keyword start characters
+        case 'a':   goto lex01;
+        case 'b':   goto lex02;
+        case 'c':   goto lex03;
+        case 'd':   goto lex04;
+        case 'e':   goto lex05;
+        case 'f':   goto lex06;
+        case 'g':   goto lex07;
+        case 'i':   goto lex08;
+        case 'l':   goto lex09;
+        case 'r':   goto lex10;
+        case 's':   goto lex11;
+        case 't':   goto lex12;
+        case 'u':   goto lex13;
+        case 'u':   goto lex14;
+        case 'v':   goto lex15;
+        case 'w':   goto lex16;
+        case '_':   goto lex17;
+        default:
+
+lexend:   return make_token(anchor, TOKEN_END);
+lexread: cc = *++ctx.cursor;
+lexid:  switch(cc)
+        {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+            case '_':
+            case 'A':
+            case 'B':
+            case 'C':
+            case 'D':
+            case 'E':
+            case 'F':
+            case 'G':
+            case 'H':
+            case 'I':
+            case 'J':
+            case 'K':
+            case 'L':
+            case 'M':
+            case 'N':
+            case 'O':
+            case 'P':
+            case 'Q':
+            case 'R':
+            case 'S':
+            case 'T':
+            case 'U':
+            case 'V':
+            case 'W':
+            case 'X':
+            case 'Y':
+            case 'Z':
+            case 'a':
+            case 'b':
+            case 'c':
+            case 'd':
+            case 'e':
+            case 'f':
+            case 'g':
+            case 'h':
+            case 'i':
+            case 'j':
+            case 'k':
+            case 'l':
+            case 'm':
+            case 'n':
+            case 'o':
+            case 'p':
+            case 'q':
+            case 'r':
+            case 's':
+            case 't':
+            case 'u':
+            case 'v':
+            case 'w':
+            case 'x':
+            case 'y':
+            case 'z': goto lexread;
+            default: 
+lexidsink:      return make_token(, TOKEN_IDENTIFIER);
+        }
+lex01:  if ((cc = *++ctx.cursor) == 'u') goto lex18; else goto lexid;
+
+    }
+    return NULL;
 }

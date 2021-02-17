@@ -7,8 +7,20 @@ char* token_class_strings[5] =
     "identifier",
     "constant",
     "string literal",
-    "punctuator"
+    "punctuator",
+    "eof"
 };
+
+token_list_t_node* make_token(char* l, token_class_t tc)
+{
+    token_t* token = malloc(sizeof(token_t));
+    token->lexeme = l;
+    token->t_class = tc;
+    token_list_node_t* node = malloc(sizeof(token_list_node_t));
+    node->token = token;
+    node->next  = NULL;
+    return node;
+}
 
 char* get_token_class_string(token_class_t tc)
 {
