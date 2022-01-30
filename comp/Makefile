@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-I.
+CFLAGS=-I. -I./frontend/ -I./ds/ -I./preproccessor/ -I./optimizer/ -I./backend/
 DEPS = helpers.h ./ds/token.h ./frontend/lexer.h
 OBJ = helpers.o ./ds/token.o ./frontend/lexer.o
 

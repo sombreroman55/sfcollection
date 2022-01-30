@@ -1,3 +1,11 @@
+# Text editor files
+*~
+*.swp
+\#*#
+
+# Org files
+*.org
+
 # Prerequisites
 *.d
 
