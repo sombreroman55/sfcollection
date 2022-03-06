@@ -1,3 +1,3 @@
-# SFCompiler
+# Super FamiCompiler
 
-This is my (surely terrible) attempt at writing a C compiler targeted at the 65C816 instruction set.
+Super FamiCompiler is a C compiler targeted at the Super Famicom/SNES platform.

@@ -1,6 +1,8 @@
 # Main program name
 sfcc
 
+docs/
+
 # Text editor files
 *~
 .*.un~
