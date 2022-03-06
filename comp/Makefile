@@ -15,7 +15,7 @@ $(TARGET): $(OBJS)
 	$(CC) $(INCLUDE_DIRS) $(CXXFLAGS) $^ -o $@
 
 # Build object files
-$(BUILD_DIR)/%.o: $(SRCS)
+$(BUILD_DIR)/%.o: %.cc
 	$(CC) $(INCLUDE_DIRS) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 .PHONY: clean

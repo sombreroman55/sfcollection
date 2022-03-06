@@ -4,13 +4,13 @@
  *
  */
 
-#include "token.hh"
+#include "pptoken.hh"
 
 namespace SFCC
 {
     namespace DataStructures
     {
-        PPToken::PPToken(std::string _lexeme, PPTokenType type) : lexeme(_lexeme), type(_type) {}
-        ~PPToken::PPToken() {}
+        PPToken::PPToken(std::string _lexeme, PPTokenType _type) : lexeme(_lexeme), type(_type) {}
+        PPToken::~PPToken() {}
     }
 }

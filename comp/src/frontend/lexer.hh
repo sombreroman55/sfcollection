@@ -17,9 +17,10 @@ namespace SFCC
         class Lexer
         {
             public:
-                Lexer(std::ifstream file) {}
+                Lexer(std::string filename) {}
                 SFCC::DataStructures::Token getNextToken(char* p);
             private:
+                std::ifstream file;
                 std::string _buffer;
         };
     }

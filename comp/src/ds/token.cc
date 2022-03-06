@@ -10,7 +10,7 @@ namespace SFCC
 {
     namespace DataStructures
     {
-        Token::Token(std::string _lexeme, TokenType type) : lexeme(_lexeme), type(_type) {}
-        ~Token::Token() {}
+        Token::Token(std::string _lexeme, TokenType _type) : lexeme(_lexeme), type(_type) {}
+        Token::~Token() {}
     }
 }

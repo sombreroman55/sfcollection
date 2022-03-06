@@ -2,6 +2,9 @@
 sfcc
 
 docs/
+build/
+debug/
+release/
 
 # Text editor files
 *~
