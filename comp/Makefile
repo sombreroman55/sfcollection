@@ -22,3 +22,4 @@ $(BUILD_DIR)/%.o: %.cc
 
 clean:
 	rm -rf $(BUILD_DIR)/*.o
+	rm -f $(TARGET)

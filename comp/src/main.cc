@@ -14,11 +14,9 @@ int main (int argc, char** argv)
 
     for (int i = 1; i < argc; i++)
     {
-        std::string file(argv[i]);
-        std::cout << "\t" << file << std::endl;
-        std::ifstream filestream;
-        filestream.open(file, std::ios::in);
-        filestream.close();
+        std::string filename = argv[i];
+        std::ifstream f(filename);
+        std::string buffer(std::istreambuf_iterator<char>(f), {});
     }
 
     return 0;

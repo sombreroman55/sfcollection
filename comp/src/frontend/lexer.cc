@@ -13,6 +13,15 @@ namespace SFCC
 {
     namespace Frontend
     {
+        Lexer::Lexer()
+        {
+        }
+
+        std::vector<SFCC::DataStructures::Token> Lexer::lex(void)
+        {
+            std::vector<SFCC::DataStructures::Token> tokenStream;
+        }
+
         SFCC::DataStructures::Token Lexer::getNextToken(char* p)
         {
             char* anchor = p;
@@ -20,6 +29,33 @@ namespace SFCC
             switch(lexchr = *p)
             {
                 case 0x00:        goto end;
+
+                /*
+                case 0x08:
+                case '\t':
+                case '\v':
+                case '\f':
+                case ' ':         goto whitespace;
+
+                case '\n':        goto newline;
+                case '\r':        goto creturn;
+
+                case '!':         goto bang;
+                case '"':         goto quote;
+                case '&':         goto and;
+                case '+':         goto plus;
+                case '-':         goto minus;
+                case '/':         goto div;
+
+                case '0' ... '9': goto constant;
+
+                case 'A' ... 'Z':
+                case 'h':
+                case 'j' ... 'k':
+                case 'm' ... 'q':
+                case 'x' ... 'z': goto id_advance;
+                */
+
                 case 'a':         goto a_group;
                 case 'b':         goto b_group;
                 case 'c':         goto c_group;
@@ -37,15 +73,12 @@ namespace SFCC
                 case 'w':         goto w_group;
                 case '_':         goto under_group;
 
-                case 'h':
-                case 'j' ... 'k':
-                case 'm' ... 'q':
-                case 'x' ... 'z':
-                case 'A' ... 'Z': goto id_advance;
-
-                default:          { return Token(std::string(anchor, (size_t)(p-anchor)), TokenType::none); }
+                default:          goto single_char;
             }
 end:            { return Token(std::string(), TokenType::none); }
+single_char:    {
+                    // TODO
+                }
 id_advance:     lexchr = *++p;
 id_loop:        switch(lexchr = *++p)
                 {
@@ -53,7 +86,7 @@ id_loop:        switch(lexchr = *++p)
                     case 'A' ... 'Z':
                     case '_':
                     case 'a' ... 'z': goto id_advance;
-                    default: { ; }
+                    default: { return Token(std::string(anchor, p), TokenType::identifier); }
                 }
 
 a_group:        if ((lexchr = *++p) == 'u') goto auto_t;     goto id_advance;
@@ -65,7 +98,7 @@ auto_sink:      switch(lexchr = *++p)
                     case 'A' ... 'Z':
                     case '_':
                     case 'a' ... 'z': goto id_advance;
-                    default: { ; }
+                    default: { return Token(std::string(anchor, p), TokenType::keyword); }
                 }
 
 b_group:        if ((lexchr = *++p) == 'r') goto break_e;    goto id_advance;
@@ -78,10 +111,26 @@ break_sink:     switch(lexchr = *++p)
                     case 'A' ... 'Z':
                     case '_':
                     case 'a' ... 'z': goto id_advance;
-                    default: { ; }
+                    default: { return Token(std::string(anchor, p), TokenType::keyword); }
                 }
 
-c_group:
+c_group:        switch(lexchr = *++p)
+                {
+                    case 'a': goto case_s;
+                    case 'h': goto char_a;
+                    case 'o': goto con_n;
+                    default:  goto id_advance;
+                }
+case_s:
+case_e:
+case_sink:      switch(lexchr = *++p)
+                {
+                    case '0' ... '9':
+                    case 'A' ... 'Z':
+                    case '_':
+                    case 'a' ... 'z': goto id_advance;
+                    default: { return Token(std::string(anchor, p), TokenType::keyword); }
+                }
 
 d_group:
 

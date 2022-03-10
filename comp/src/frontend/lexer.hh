@@ -8,6 +8,7 @@
 
 #include <string>
 #include <fstream>
+#include <vector>
 #include "token.hh"
 
 namespace SFCC
@@ -17,10 +18,12 @@ namespace SFCC
         class Lexer
         {
             public:
-                Lexer(std::string filename) {}
-                SFCC::DataStructures::Token getNextToken(char* p);
+                Lexer(std::string filename);
+                ~Lexer();
+                std::vector<SFCC::DataStructures::Token> lex(void);
             private:
-                std::ifstream file;
+                SFCC::DataStructures::Token _getNextToken(char* p);
+                std::ifstream _file;
                 std::string _buffer;
         };
     }
