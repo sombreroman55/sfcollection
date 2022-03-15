@@ -17,6 +17,14 @@ int main (int argc, char** argv)
         std::string filename = argv[i];
         std::ifstream f(filename);
         std::string buffer(std::istreambuf_iterator<char>(f), {});
+        std::cout << buffer << std::endl;
+        Lexer lexer(filename, buffer);
+        std::vector<Token> tokens = lexer.lex();
+
+        for (int i = 0; i < tokens.size(); i++)
+        {
+            std::cout << tokens[i].to_string() << std::endl;
+        }
     }
 
     return 0;
