@@ -16,7 +16,7 @@ namespace SFCC
         enum class TokenType : uint8_t
         {
             // Preprocessor tokens
-            PP_NONTOKEN,
+            PP_NONTOKEN = 0,
             PP_HEADER_ANGLE,
             PP_HEADER_QUOTE,
             PP_NUMBER,
@@ -75,7 +75,8 @@ namespace SFCC
 
             // Constants and identifiers
             IDENTIFIER,
-            CONSTANT,
+            CONSTANT_INT,
+            CONSTANT_FLOAT,
             CHAR_CONSTANT,
             STRING_LITERAL,
 
@@ -128,16 +129,12 @@ namespace SFCC
             PUNC_COMMA,
             PUNC_POUND,
             PUNC_POUNDPOUND,
-            PUNC_DI_LSQUARE,
-            PUNC_DI_RSQUARE,
-            PUNC_DI_LCURLY,
-            PUNC_DI_RCURLY,
-            PUNC_DI_POUND,
-            PUNC_DI_POUNDPOUND,
 
             // Internal tokens
             INTERNAL_EOF,
             INTERNAL_ERROR,
+
+            NUM_TOKENS
         };
 
         struct Location
@@ -152,7 +149,9 @@ namespace SFCC
                 Token(TokenType _type, Location _loc);
                 Token(TokenType _type, Location _loc, std::string _lexeme);
                 ~Token() = default;
+#ifdef DEBUG
                 std::string to_string(void);
+#endif // DEBUG
 
             private:
                 std::string lexeme;

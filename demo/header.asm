@@ -21,6 +21,7 @@
 
   NAME "SNES Demo            "  ; Program Title - can't be over 21 bytes,
   ;    "123456789012345678901"  ; use spaces for unused bytes in the name.
+  ;    "         111111111112"
 
   SLOWROM
   LOROM
@@ -59,4 +60,3 @@ EmtpyHandler
 
 .EMPTYFILL $00
 ;---------------------------------- END -------------------------------------
-

@@ -1,17 +1,17 @@
 CC := g++
-TARGET := sfcc
+TARGET := sfas
 CPPFLAGS := -DDEBUG # Add any #defines or such things here
 CXXFLAGS := -ggdb
 LDFLAGS := # Link any other libraries here
-SRC_DIRS := src/frontend src/ds src/preproccessor src/optimizer src/backend src
+SRC_DIRS := src
 BUILD_DIR := build
-INCLUDE_DIRS := -I./src/frontend/ -I./src/ds/ -I./src/preproccessor/ -I./src/optimizer/ -I./src/backend/
+INCLUDE_DIRS := -I./src/
 SRCS := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.cc))
 OBJS := $(addprefix $(BUILD_DIR)/,$(notdir $(SRCS:.cc=.o)))
 vpath %.cc $(SRC_DIRS)
 
 # Build target
-$(TARGET): $(OBJS)
+$(TARGET): $(OBJS) main.cc
 	$(CC) $(INCLUDE_DIRS) $(CXXFLAGS) $^ -o $@
 
 # Build object files
