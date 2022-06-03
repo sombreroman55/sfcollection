@@ -4,9 +4,10 @@
  *
  */
 
+#pragma once
+
 #include <cstdint>
 #include <string>
-
 #include "location.hh"
 
 namespace sfas
@@ -139,6 +140,10 @@ namespace sfas
             TT_DOT,
             TT_COLON,
             TT_SEMICOLON,
+            TT_COMMENT,
+
+            // Error token
+            TT_ERROR,
 
             TT_NUMTYPES
         } TokenType;
@@ -146,7 +151,7 @@ namespace sfas
         Token(TokenType type, std::string lexeme, Location loc);
         ~Token() = default;
 
-        private:
+    private:
         TokenType type_;
         std::string lexeme_;
         Location location_;

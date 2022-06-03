@@ -1,8 +1,18 @@
+/* main.cc
+ *
+ * Main program
+ *
+ */
+
 #include <cstdio>
 #include <cstdlib>
 #include <fstream>
+#include <memory>
 #include <string>
-#include <unordered_map>
+#include <sstream>
+
+#include "sfas.hh"
+using namespace sfas;
 
 int main(int argc, char** argv)
 {
@@ -12,20 +22,22 @@ int main(int argc, char** argv)
         printf("Please provide a file to assemble\n");
         return EXIT_FAILURE;
     }
-    char* filename = argv[1];
-    std::ifstream input(filename);
-    if (!input.good())
-    {
-        printf("Can't open %s. No such file.\n", filename);
-        return EXIT_FAILURE;
-    }
 
-    std::string line;
-    int pass_indicator = 1;
-    int location_counter = 0;
-    while (getline(input, line))
+    // TODO: command-line flags
+
+    auto assembler = std::make_unique<SFAS>();
+    for (int i = 1; i < argc; i++)
     {
-        printf("%s\n", line.c_str());
+        char* filename = argv[i];
+        std::ifstream input(filename);
+        if (!input.good())
+        {
+            printf("Can't open %s. No such file.\n", filename);
+            continue;
+        }
+        std::stringstream src_buffer;
+        src_buffer << input.rdbuf();
+        assembler->assemble(src_buffer.str());
     }
     return EXIT_SUCCESS;
 }
