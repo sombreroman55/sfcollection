@@ -7,16 +7,19 @@
 #include <cstdio>
 #include <cstdlib>
 #include <fstream>
+#include <iostream>
 #include <memory>
 #include <string>
 #include <sstream>
 
+#include "config.hh"
 #include "sfas.hh"
-using namespace sfas;
+// using namespace sfas;
 
 int main(int argc, char** argv)
 {
     printf("sfas - SNES/Super Famicom assembler\n");
+    printf("VERSION %d.%d.%d\n\n", sfas_VERSION_MAJOR, sfas_VERSION_MINOR, sfas_VERSION_PATCH);
     if (argc < 2)
     {
         printf("Please provide a file to assemble\n");
@@ -25,7 +28,7 @@ int main(int argc, char** argv)
 
     // TODO: command-line flags
 
-    auto assembler = std::make_unique<SFAS>();
+    // auto assembler = std::make_unique<SFAS>();
     for (int i = 1; i < argc; i++)
     {
         char* filename = argv[i];
@@ -37,7 +40,8 @@ int main(int argc, char** argv)
         }
         std::stringstream src_buffer;
         src_buffer << input.rdbuf();
-        assembler->assemble(src_buffer.str());
+        // assembler->assemble(src_buffer.str());
+        std::cout << src_buffer.str() << std::endl;
     }
     return EXIT_SUCCESS;
 }
