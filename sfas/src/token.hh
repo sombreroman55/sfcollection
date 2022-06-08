@@ -142,14 +142,15 @@ namespace sfas
             TT_SEMICOLON,
             TT_COMMENT,
 
-            // Error token
             TT_ERROR,
+            TT_EOF,
 
             TT_NUMTYPES
         } TokenType;
 
         Token(TokenType type, std::string lexeme, Location loc);
-        ~Token() = default;
+        ~Token();
+        std::string get_lexeme(void);
 
     private:
         TokenType type_;

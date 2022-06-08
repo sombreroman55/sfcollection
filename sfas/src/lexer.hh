@@ -7,6 +7,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "token.hh"
 
 namespace sfas
@@ -105,7 +106,7 @@ namespace sfas
             instruction_ror,
             instruction_rt,
             instruction_rti,
-            instruction_rtl
+            instruction_rtl,
             instruction_rts,
 
             instruction_s,

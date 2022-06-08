@@ -11,8 +11,8 @@ namespace sfas
     struct Location
     {
     private:
-        int _line;
-        int _col;
+        int line_;
+        int col_;
     public:
         Location(int line, int col);
         ~Location(void);

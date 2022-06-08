@@ -14,7 +14,9 @@
 
 #include "config.hh"
 #include "sfas.hh"
-// using namespace sfas;
+#include "lexer.hh"
+#include "token.hh"
+using namespace sfas;
 
 int main(int argc, char** argv)
 {
@@ -42,6 +44,9 @@ int main(int argc, char** argv)
         src_buffer << input.rdbuf();
         // assembler->assemble(src_buffer.str());
         std::cout << src_buffer.str() << std::endl;
+        auto lexer = std::make_unique<Lexer>();
+        auto tokens = lexer->tokenize_line(src_buffer.str(), 1);
+        for (auto token : tokens) std::cout << token.get_lexeme() << std::endl;
     }
     return EXIT_SUCCESS;
 }
