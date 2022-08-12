@@ -1,6 +1,6 @@
-/*
+/* lexer.hh
  *
- *
+ * Lexer class
  *
  */
 
@@ -170,9 +170,11 @@ namespace sfas
 
             num_lexer_states
         };
+
+        Token last_token;
     public:
         Lexer();
         ~Lexer();
-        std::vector<Token> tokenize_line(std::string line, int line_no);
+        std::vector<Token> (std::string line, int line_no);
     };
 }

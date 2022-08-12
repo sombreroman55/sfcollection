@@ -148,13 +148,14 @@ namespace sfas
             TT_NUMTYPES
         } TokenType;
 
-        Token(TokenType type, std::string lexeme, Location loc);
-        ~Token();
         std::string get_lexeme(void);
 
     private:
+        Token(TokenType type, std::string lexeme, Location loc);
+        ~Token();
         TokenType type_;
         std::string lexeme_;
         Location location_;
+        friend class Lexer;
     };
 }

@@ -21,6 +21,7 @@ namespace sfas
         std::string current_lexeme = "";
         LexerState state = LexerState::token_start;
         int anchor = -1;
+        bool comment = false;
         for (int i = 0; i < line.size(); i++)
         {
             switch (state)
@@ -31,6 +32,15 @@ namespace sfas
                     switch (line[i])
                     {
                         case EOF:
+                            break;
+
+                        case ';':
+                            comment = true;
+                            break;
+
+                        case '\r':
+                        case '\n':
+                            comment = false;
                             break;
 
                         case ' ':

@@ -1,0 +1,4 @@
+// the configured options and settings for sfas
+#define sfas-tester_VERSION_MAJOR @sfas-tester_VERSION_MAJOR@
+#define sfas-tester_VERSION_MINOR @sfas-tester_VERSION_MINOR@
+#define sfas-tester_VERSION_PATCH @sfas-tester_VERSION_PATCH@
