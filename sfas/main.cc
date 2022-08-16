@@ -13,10 +13,8 @@
 #include <sstream>
 
 #include "config.hh"
-// #include "sfas.hh"
-// #include "lexer.hh"
-// #include "token.hh"
-// using namespace sfas;
+#include "sfas.hh"
+using namespace sfas;
 
 int main(int argc, char** argv)
 {
@@ -30,7 +28,6 @@ int main(int argc, char** argv)
 
   // TODO: command-line flags
 
-  // auto assembler = std::make_unique<SFAS>();
   for (int i = 1; i < argc; i++)
   {
     std::string filename(argv[i]);
@@ -40,17 +37,12 @@ int main(int argc, char** argv)
       printf("Can't open %s. No such file.\n", filename.c_str());
       continue;
     }
-    else
-    {
-      printf("Opened %s!\n", filename.c_str());
-    }
-    // std::stringstream src_buffer;
-    // src_buffer << input.rdbuf();
-    // assembler->assemble(src_buffer.str());
-    // std::cout << src_buffer.str() << std::endl;
-    // auto lexer = std::make_unique<Lexer>();
-    // auto tokens = lexer->tokenize_line(src_buffer.str(), 1);
-    // for (auto token : tokens) std::cout << token.get_lexeme() << std::endl;
+    std::stringstream src_stream;
+    src_stream << input.rdbuf();
+    std::string src_buffer = src_stream.str();
+    if (src_buffer.back() != '\n') src_buffer.push_back('\n');
+    SFAS assembler(filename, src_buffer);
+    assembler.assemble();
   }
   return EXIT_SUCCESS;
 }

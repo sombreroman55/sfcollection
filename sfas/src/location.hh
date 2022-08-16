@@ -8,13 +8,15 @@
 
 namespace sfas
 {
-    struct Location
-    {
+  struct Location
+  {
     private:
-        int line_;
-        int col_;
+      int line_;
+      int col_;
+      friend class Token;
     public:
-        Location(int line, int col);
-        ~Location(void);
-    };
+      Location();
+      Location(int line, int col);
+      ~Location();
+  };
 }

@@ -6,18 +6,36 @@
  */
 
 #include <string>
-#include "location.hh"
 #include "token.hh"
 
 namespace sfas
 {
-    Token::Token(TokenType type, std::string lexeme, Location loc) :
-        type_(type), lexeme_(lexeme), location_(loc) {}
+  Token::Token()
+  {
+    type_ = TokenType::TT_NONE;
+  }
 
-    Token::~Token() = default;
+  Token::Token(TokenType type, std::string lexeme) :
+    type_(type), lexeme_(lexeme) {}
 
-    std::string Token::get_lexeme(void)
+  Token::~Token() = default;
+
+  std::string Token::get_lexeme(void)
+  {
+    return lexeme_;
+  }
+
+  std::string Token::to_string(void)
+  {
+    std::string l = get_lexeme();
+    if (l == "\n")
     {
-        return lexeme_;
+      l = "\\n";
     }
+    else if (l == "\0")
+    {
+      l = "EOF";
+    }
+    return "<" + tokenTypeStrs[(int)type_] + ", \"" + l + "\">";
+  }
 }

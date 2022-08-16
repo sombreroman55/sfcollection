@@ -12,11 +12,18 @@
 
 namespace sfas
 {
-    struct Instruction
-    {
+  enum class AdressingMode
+  {
+
+  };
+  struct Instruction
+  {
+    public:
+      Instruction();
+      ~Instruction();
     private:
-        std::string name;
-        uint8_t     opcode;
-        int         size;
-    };
+      uint8_t     opcode;
+      std::string name;
+      int         size;
+  };
 }

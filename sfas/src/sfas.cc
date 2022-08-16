@@ -14,42 +14,56 @@
 
 namespace sfas
 {
-    SFAS::SFAS(std::string src) : _src_buffer(src)
-    {
-        _symbol_table = {};
-    }
+  SFAS::SFAS(std::string filename, std::string src) : _src_filename(filename), _src_buffer(src)
+  {
+    _symbol_table = {};
+  }
 
-    SFAS::~SFAS() = default;
+  SFAS::~SFAS() = default;
 
-    void SFAS::_tokenize(void)
-    {
-        std::stringstream _src_stream(_src_buffer);
-        std::string line;
-        int line_no = 1;
-        while (std::getline(std::cin, line))
-        {
-            _parser::parse(line, line_no++);
-        }
-    }
+  void SFAS::_tokenize(void)
+  {
+    _token_stream = _lexer.tokenize_buffer(_src_buffer);
+  }
 
-    void _pass_zero(void)
-    {
-    }
+  void SFAS::_pass_zero(void)
+  {
+    // TODO
+  }
 
-    void _pass_one(void)
-    {
-    }
+  void SFAS::_pass_one(void)
+  {
+    // Parse tokens into instructions based on operand forms
+  }
 
-    std::vector<uint8_t> _pass_two(void)
-    {
-    }
+  std::vector<uint8_t> SFAS::_pass_two(void)
+  {
+    std::vector<uint8_t> v;
+    return v;
+  }
 
-    void SFAS::assemble(void)
+  void SFAS::_write_object_file(std::vector<uint8_t> instructions)
+  {
+    std::string object_filename = _src_filename + ".o";
+  }
+
+  void SFAS::assemble(void)
+  {
+    _tokenize();  // tokenize file, populate token vector
+#ifndef NDEBUG
+    std::cout << "Source buffer for file " << _src_filename << ":" << std::endl;
+    std::cout << _src_buffer << "\n" << std::endl;
+    std::cout << "Token stream for file " << _src_filename << ":" << std::endl;
+    for (auto token : _token_stream)
     {
-        std::cout << src << std::endl;
-        _tokenize();   // tokenize file
-        _pass_zero();  // execute directives
-        _pass_one();   // populate symbol table
-        _pass_two();   // assemble object file
+      std::cout << token.to_string() << std::endl;
     }
+#endif
+
+    /* TODO */
+    // _pass_zero();                      // TODO: traverse token vector and execute directives
+    // _pass_one();                       // traverse updated token vector and populate symbol table
+    // auto instructions = _pass_two();   // traverse token vector and assemble object file
+    // _write_object_file(instructions);  // write object file to disk
+  }
 }
