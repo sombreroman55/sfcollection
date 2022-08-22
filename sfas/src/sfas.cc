@@ -16,14 +16,18 @@ namespace sfas
 {
   SFAS::SFAS(std::string filename, std::string src) : _src_filename(filename), _src_buffer(src)
   {
+    _lexer = new Lexer(src);
     _symbol_table = {};
   }
 
-  SFAS::~SFAS() = default;
+  SFAS::~SFAS()
+  {
+    delete _lexer;
+  }
 
   void SFAS::_tokenize(void)
   {
-    _token_stream = _lexer.tokenize_buffer(_src_buffer);
+    _token_stream = _lexer->tokenize();
   }
 
   void SFAS::_pass_zero(void)
@@ -44,6 +48,7 @@ namespace sfas
 
   void SFAS::_write_object_file(std::vector<uint8_t> instructions)
   {
+    (void)(instructions);
     std::string object_filename = _src_filename + ".o";
   }
 

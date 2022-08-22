@@ -23,7 +23,7 @@ namespace sfas
       std::string                               _src_buffer;
       std::unordered_map<std::string, uint16_t> _symbol_table;
       std::vector<Token>                        _token_stream;
-      Lexer                                     _lexer;
+      Lexer*                                    _lexer;
 
       void                 _tokenize(void);
       void                 _pass_zero(void);
